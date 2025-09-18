@@ -8,5 +8,4 @@
 
 # Run Instructions
 ```bash
-gcc HW0P1.c -o hw0p1
-./hw0p1
+gcc main.c -o main && ./main

@@ -1,6 +1,6 @@
 # hw0-part1
 
-- Creates two processes using `fork()`.
+- Creates two processes using fork().
 - Parent (Producer): generates numbers 1–5, prints them, and sends them through a pipe.
 - Child (Consumer): receives numbers, prints them, and sends back an acknowledgment.
 - A second pipe is used so that the Producer waits for the Consumer each time.

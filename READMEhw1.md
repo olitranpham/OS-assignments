@@ -1,17 +1,13 @@
-* Hw1-Part2
+# Hw1-Part2
 
-Implements two approaches for a producer–consumer system with a workload of 10,000 items.
+- One-producer, one-consumer problem implemented two ways:
+-   Processes (using fork() and pipes for communication)
+-   Threads (using pthreads, mutex, and condition variables for synchronization)
+-   Producer generates numbers 1–10,000, Consumer receives them
+-   Execution time is measured to compare performance of process-based vs. thread-based approaches
 
-Threaded Version (--threads)
+  # Run Instructions
+  - gcc Hw1P2.c -o hw1p2 -lpthread
+- ./hw1p2 --threads     # Run thread-based version
+- ./hw1p2 --process     # Run process-based version
 
-Uses a producer thread to generate numbers and a consumer thread to process them.
-
-Synchronization is handled with mutex locks and condition variables to alternate production/consumption.
-
-Process Version (--process)
-
-Uses fork() to create a child process (consumer) and a parent process (producer).
-
-Communication is done via a pipe (write by producer, read by consumer).
-
-Both versions measure and print the elapsed execution time for performance comparison.

@@ -1,0 +1,103 @@
+// HW 0 Part 2 
+// Group: Cody Nguyen, Ian Khoo, Olivia Pham
+//
+// Reference: https://www.geeksforgeeks.org/dsa/implement-stack-using-array/
+
+#include <stdio.h>
+
+#define STACK_SIZE 100  // max size of stack
+
+typedef struct {
+    int data[STACK_SIZE];  
+    int top_value;  // keeps track of the top index
+} Stack;
+
+// set up stack
+void initStack(Stack *stack) {
+    stack->top_value = -1;  // empty stack
+}
+
+// check if empty
+int isEmpty(Stack *stack) {
+    return stack->top_value == -1;
+}
+
+// check if full
+int isFull(Stack *stack) {
+    return stack->top_value == STACK_SIZE - 1;
+}
+
+// push onto stack
+int push(Stack *stack, int value) {
+    if (isFull(stack)) {
+        printf("Stack overflow\n");
+        return 0;
+    }
+    stack->data[++stack->top_value] = value;
+    return 1;
+}
+
+// pop from stack
+int pop(Stack *stack, int *value) {
+    if (isEmpty(stack)) {
+        printf("Stack underflow\n");
+        return 0;
+    }
+    *value = stack->data[stack->top_value--];
+    return 1;
+}
+
+// print stack contents
+void printStack(Stack *stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty.\n");
+        return;
+    }
+
+    printf("Stack (top to bottom): ");
+    for (int i = stack->top_value; i >= 0; i--) {
+        printf("%d ", stack->data[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    Stack stack;
+    initStack(&stack);
+
+    int choice, value;
+
+    while (1) {
+        printf("\nStack Menu\n");
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                if (push(&stack, value)) {
+                    printf("Pushed %d\n", value);
+                    printStack(&stack);
+                }
+                break;
+
+            case 2:
+                if (pop(&stack, &value)) {
+                    printf("Popped %d\n", value);
+                    printStack(&stack);
+                }
+                break;
+
+            case 3:
+                printf("Exiting...\n");
+                return 0;
+
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}

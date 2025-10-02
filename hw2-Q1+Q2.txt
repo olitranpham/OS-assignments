@@ -1,0 +1,25 @@
+1. Lock Analysis (2pt)
+  ○ Consider “Figure 28.9: Lock With Queues, Test-and-set, Yield, And Wakeup.” What happens if you remove the code about guard (removing Line 3, Line 9, Line 14, Line 15, Line 18, Line 21, Line 27, Line 28, Line 34)? Is the new algorithm still correct? 
+  ○ You can assume that there is no issue of wakeup/waiting race.
+  ○ If you believe the new lock algorithm is still correct, briefly explain why. If you think it’s incorrect, present an execution (by the malicious scheduler), and explain what property is violated.
+  ○ Key concepts: lock, algorithm design and analysis
+
+The new algorithm would be incorrect if the guard is taken away. An instance that would show this is if there were two threads running and both wanted the lock; 
+thread 1 could grab the lock, but before it gets set, thread two can also grab the lock, thus both the threads would think that they own the lock. This would create 
+a race condition and violate mutual exclusion because then both threads would have the lock, and as a result, more than one thread would have a critical section. 
+If the guard were present, the guard would have stopped the second thread from taking the lock because the guard would have been initialized.
+
+2. Lock Analysis II (2pt)
+  ○ Consider “Figure 28.6: Using LL/SC To Build A Lock” What happens if you replace Line 12 by 
+		lock->flag = lock->flag - 1;
+    Intuitively, this is correct, because the lock holder (the thread calling unlock) must see flag = 1, so it tries to reduce it by 1 to release the lock. 
+  ○ If you believe the new lock algorithm is still correct, briefly explain why. If you think it’s incorrect, present an execution (by the malicious scheduler), and explain what property is violated.
+  ○ Hint: you should consider all possible cases, including application developers that might not use locks correctly.
+  ○ Key concepts: lock, algorithm design and analysis
+
+It would be incorrect to replace line 12 with the new code because it allows the lock variable to enter invalid states. In Figure 28.6, the original line explicitly 
+resets the flag to 0, guaranteeing that the lock is always either free or held. By subtracting by 1 instead, the state of the flag becomes uncertain and vulnerable to
+scheduling interruptions or overall use incorrectly. For example, if a thread is preempted during unlock and another thread (or buggy code) also calls unlock, the thread 
+could be subtracted by 1 twice: 0, then -1. At that point the lock is corrupted; other threads spinning on LoadLinked won’t ever run since this condition only accounts for
+0 and 1. 
+

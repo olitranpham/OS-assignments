@@ -1,0 +1,41 @@
+Goroutine – A function that executes independently and concurrently, managed by Go runtime.
+(Go version of a thread)
+  • A Goroutine executes independently and simultaneously in concurrence with any other
+present Goroutines.
+  • Goroutines are not hardware dependent
+  • Goroutines communicate using channels, a safe and efficient way to pass messaging
+  • Millions of Goroutines can be created
+  • Low overhead (lightweight in terms of context switching, smaller stacks)
+Thread – A unit of execution within a process, managed by the operating system
+  • Threads can run concurrently with multiple threads in one process, and in parallel with
+multiple cores.
+  • Threads have their own stack, register state, and program counter, but share memory and
+resources with other threads in the same process.
+    o More resource heavy to Goroutines by comparison
+  • There are a lot of required mechanisms in order to synchronize threads for
+communication (ex. Locks)
+  • Threads are hardware dependent and limited (OS and hardware constraints)
+  • High overhead (heavy context switching, larger stacks)
+
+  Essentially, the advantages of a Goroutine over a thread are its lightweight nature, lower
+memory usage, faster creation, efficient scheduling by the Go runtime, and built-in
+communication via channels. This makes Goroutines easier to use and scale, allowing millions of
+them to run concurrently.
+
+  The disadvantages are that Goroutines depend on the Go runtime rather than the operating
+system, which means less control generally compared to threads. Also, improper use of
+Goroutines (e.g., forgetting to synchronize or close channels) can lead to memory leaks or
+deadlocks.
+
+Sources: (all from Google)
+https://www.geeksforgeeks.org/go-language/golang-goroutine-vs-thread/
+  ➔ Geeksforgeeks is credible since it is widely recognized, and a beginner-oriented coding
+platform. A bit simple, but there are good examples.
+
+https://medium.com/@sairavitejachintakrindi/goroutines-and-threads-exploring-concurrency-ingo-370d609038c
+  ➔ Medium is credible because allows industry professionals to share their knowledge of
+real world applications and deep insights.
+
+https://dev.to/sajosam/go-routines-vs-threads-whats-the-difference-and-when-to-use-them-1g09
+  ➔ Dev community platform where people can collaborate. Credible because engineers can
+discuss, review, and refine each other’s posts. 

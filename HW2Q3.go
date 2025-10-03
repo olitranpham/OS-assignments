@@ -78,3 +78,7 @@ func main() {
 			threads, tlWait, casWait)
 	}
 }
+
+//ChatGPT was utilized to do faster research for aspects of the code we did not yet know
+//We also utilized w3schools Go index as well as GobyExample, which provides good insight into the inner complexities of Go
+//https://www.w3schools.com/go/index.php & https://gobyexample.com/

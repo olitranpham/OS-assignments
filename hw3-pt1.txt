@@ -1,0 +1,26 @@
+1. Go Design Principle
+
+The Go design principle “Don’t communicate by sharing memory; share memory by communicating” captures the idea that concurrent programs should exchange data through channels 
+rather than by directly accessing shared memory with locks. In this model, only one goroutine “owns” the data at a time, which reduces complexity and the likelihood of data 
+races. This style, rooted in the Communicating Sequential Processes (CSP) model, makes concurrent programs easier to understand because channels enforce synchronization and 
+clear ownership. Johnson (2024) notes that channels provide a higher-level abstraction than mutexes, allowing developers to implement patterns such as pipelines and 
+fan-in/fan-out structures. Similarly, Rios (2021) explains that this method supports Go’s goals of simplicity and modularity, while Dilley (2022) demonstrates through formal 
+research that message passing is not only common but also verifiable in real-world Go applications.
+
+That said, the philosophy also comes with limitations. Relying on channels can introduce runtime overhead, and if they are used carelessly, they can result in deadlocks, 
+goroutine leaks, or performance bottlenecks. In situations like read-heavy operations or performance-critical code, traditional synchronization tools such as sync.Mutex may be 
+more practical. Dilley (2022) further observes that many Go projects use a mix of channels, locks, and wait groups, indicating that the philosophy should be treated as a 
+guiding principle rather than an absolute rule. Overall, while “share memory by communicating” encourages safer and more maintainable concurrency, developers must make thoughtful
+choices to balance safety and efficiency.
+
+Sources: 
+1. Dilley, Nicolas (2022) Bounded Verification of Message-Passing Concurrency in Go. Doctor of Philosophy (PhD) thesis, University of Kent,.
+  a. Dilley (2022) is credible because it is a peer-reviewed PhD thesis that applies formal verification methods to Go's concurrency model, offering evidence of 
+  how mesage passing works in practice. 
+2. Johnson, William. “Golang Explanation: Share Memory By Communicating.” Medium, Mar 1, 2024
+  a. This source is credible as a widely read Medium article found via Google. It provides an industry-focused explanation that makes Go's philosphy accessible and
+  demonstrates how it applies to real-life projects. 
+3. Rios, A. (2021). System Programming Essentials with Go: System calls, networking, 
+efficiency, and security practices with practical projects in Golang. Packt Publishing.
+  a. Rios (2021) is credible because it is a professionally published book that are aimed at system programmers. It ensures both technical reliability and practical
+  applicability. 

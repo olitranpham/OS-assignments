@@ -1,0 +1,84 @@
+When you fork a child process from a parent, you need to replicate the address space of the parent process. Hence, this operation may take a while to complete, if the address space is large. One technique to mitigate the latency is called “copy-on-write” or COW.
+Q1: do some research to explain what COW is and why it improves the latency for forking.
+Q2: present a pseudo-code to implement COW for forking a process. Your pseudo-code should include the part to free physical pages as well.
+Note 1: Your pseudo-code should be self-explanatory. If not, use comments wisely.
+Note 2: You do not need to present a real implementation in any kernel, as it takes a while to complete. 
+Note 3: There are a lot of solutions out there, but not all of them are correct. 
+
+Q1: COW is a process for creating a fork() that doesn't copy all pages when fork() is used. 
+Instead, it makes it so that parent and child share the same memory space, and all memory tables are set to read-only in the page tables. 
+When the write happens, there are two possibilities: a page fault, because it is read-only, and the OS creates a new page, copies the content from the old page, then updates the page table with this new page. 
+This is faster because it prevents copying when fork() is used, reducing latency from O(# of pages) to O(# of page table entries).
+
+Q2:
+
+struct Page {
+    data                //physical memory contents
+    ref_count        //number of processes sharing this page
+}
+
+struct PageTableEntry {
+    page: (the pointer to page)
+    flags: { READ, WRITE, COW, ... }
+}
+
+struct Process {
+    page_table: list of PageTableEntry
+}
+
+function fork(parent_proc):
+    //Create a new child process
+    child = newProcess()
+
+   //Duplicate parent's page table entries
+    for each pte in parent_proc.page_table:
+        shared_page = pte.page
+        increment(shared_page.ref_count)
+
+        //Create a matching entry for the child
+        new_pte = PageTableEntry(page = shared_page, flags = pte.flags)
+
+        //Mark both as read-only and COW
+        new_pte.flags.remove(WRITE)
+        new_pte.flags.add(COW)
+        pte.flags.remove(WRITE)
+        pte.flags.add(COW)
+
+       //Add to child's page table
+        child.page_table.add(new_pte)
+
+    //Return the new process
+    return child
+
+function handle_page_fault(proc, fault_address, reason):
+    pte = proc.page_table.lookup(fault_address)
+
+    if reason == WRITE and pte.flags.contains(COW):
+        old_page = pte.page
+
+        if old_page.ref_count > 1:
+            //Allocate a private copy
+            new_page = allocate_physical_page()
+            copy(new_page.data, old_page.data)
+
+            //Update page table
+            decrement(old_page.ref_count)
+            pte.page = new_page
+            pte.flags.remove(COW)
+            pte.flags.add(WRITE)
+        else:
+            //Only one reference make writable
+            pte.flags.remove(COW)
+            pte.flags.add(WRITE)
+
+function free_process(proc):
+    for each pte in proc.page_table:
+        page = pte.page
+        decrement(page.ref_count)
+
+        if page.ref_count == 0:
+//release physical memory
+            free(page)   
+    free(proc.page_table)
+
+

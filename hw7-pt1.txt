@@ -1,0 +1,54 @@
+- Check the slide “Numbers Everyone Should Know” in Jeff Dean’s talk back in 2009 https://www.cs.cornell.edu/projects/ladis2009/talks/dean-keynote-ladis2009.pdf 
+- Do some research and see if the following numbers have been improved or not nowadays?
+  - L1 cache reference
+  - Branch mispredict
+  - L2 cache reference
+  - Mutex lock/unlock
+  - Main memory reference
+  - Read 1 MB sequentially from memory
+  - Round trip within same datacenter
+  - Disk seek
+  - Read 1 MB sequentially from disk
+  - Send packet CA->Netherlands->CA
+
+  1. 2009: L1 cache reference = 0.5 ns
+     Recent (2024): 1-4 cycles (~1 ns)
+     Source: https://blog.jyotiprakash.org/caching-and-performance-of-cpus
+     
+  2. 2009: Branch mispredict = 5 ns
+     Recent (2025): 15-20 ns in the Intel 4th-generation Haswell (and other Lake-generation CPUs). There was still an increase in branch mispredicts from a CPU that 
+                    was released in 2013. 
+     Source: https://www.agner.org/optimize/microarchitecture.pdf
+     
+  3. 2009: L2 cache reference = 7 ns
+     Recent (2024): 7-14 cycles (~3-5 ns)
+     Source: https://blog.jyotiprakash.org/caching-and-performance-of-cpus
+     
+  4. 2009: Mutex lock/unlock = 25 ns
+     Recent (2020): ~125 ns
+     Source: https://travisdowns.github.io/blog/2020/07/06/concurrency-costs.html
+     
+  5. 2009: Main memory reference = 100 ns
+     Recent (2021): ~60-100 ns on a Kaby Lake i7-7660U CPU running at 2.5GHz
+     Source: https://nexthink.com/blog/smarter-cpu-testing-kaby-lake-haswell-memory
+     
+  6. 2009: Read 1 MB sequentially from memory = 250,000 ns
+     Recent (2024): 50-100 ns 
+     Source: https://blog.jyotiprakash.org/caching-and-performance-of-cpus
+     
+  7. 2009: Round trip within same datacenter = 500,000 ns
+     Recent-ish (2017): 370,000 ns from us-west1-a (Oregon) to us-west1-a (Oregon)
+     Source: https://elasticbyte.net/posts/comparing-bandwidth-prices-and-network-latency-between-google-compute-zones-and-regions
+     
+  8. 2009: Disk seek = 10,000,000 ns / 10 ms
+     Recent: 4-9 ms
+     Source (2023): https://datarecovery.com/rd/hard-drive-seek-time
+     
+  9. 2009: Read 1 MB sequentially from disk = 20,000,000 ns / 20 ms
+     Recent (2025): 290 Seq MB/s = 3.45 ms for Toshiba N300 Pro 12TB
+     Source: https://www.tomshardware.com/features/hdd-benchmarks-hierarchy
+     
+  10. 2009: Send packet CA->Netherlands->CA = 150 ms
+      Recent (right now): 138.409  from Los Angeles to Amsterdam. Amsterdam to Los Angeles is 138.493 ms. 
+      Source: https://wondernetwork.com/pings
+       
